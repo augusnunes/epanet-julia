@@ -9,9 +9,7 @@ lib = Libdl.dlopen(lib_path) # Open the library explicitly.
 
 #=
 *Lista de funções a serem implementadas
-ENclose()
-ENcloseH()
-ENsolve()
+ENsolveH()
 ENgetnodevalue()
 ENgetnodeindex()
 ENsetnodevalue()
@@ -69,4 +67,14 @@ function closeH()
         return "Erro: "*err
     end
 end
+
+#ENsolveH()
+function solveH()
+    sym = Libdl.dlsym(lib, :ENsolveH)
+    err = ccall(sym,Cint,())
+    if err != 0
+        return "Erro: "*err
+    end
+end
+
 
