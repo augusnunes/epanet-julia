@@ -41,6 +41,7 @@ function open(inpFile::String, rptFile::String, outFile::String)
     err = ccall(sym, Cint, (Cstring,Cstring,Cstring), inpFile, rptFile, outFile)
     if err != 0
         return "Erro: "*err
+    end
 end
 
 #ENopenH()
