@@ -8,9 +8,7 @@ lib_path = "../optimized-calibration/libs-epanet/EPANET/build/lib/libepanet2.so"
 lib = Libdl.dlopen(lib_path) # Open the library explicitly.
 
 #=
-*Lista de funções a serem chamadas
-ENopen()
-ENopenH()
+*Lista de funções a serem implementadas
 ENclose()
 ENcloseH()
 ENsolve()
@@ -47,6 +45,25 @@ end
 #ENopenH()
 function openH()
     sym = Libdl.dlsym(lib, :ENopenH)
+    err = ccall(sym,Cint,())
+    if err != 0
+        return "Erro: "*err
+    end
+end
+
+#ENclose()
+function close()
+    sym = Libdl.dlsym(lib, :ENclose)
+    err = ccall(sym,Cint,())
+    if err != 0
+        return "Erro: "*err
+    end
+end
+
+
+#ENcloseH()
+function closeH()
+    sym = Libdl.dlsym(lib, :ENcloseH)
     err = ccall(sym,Cint,())
     if err != 0
         return "Erro: "*err
