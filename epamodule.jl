@@ -36,7 +36,7 @@ end
 =#
 
 #ENopen
-function open(inpFile::String, rptFile::String, outFile::String)
+function open(inpFile::String, rptFile::String = "", outFile::String = "")
     sym = Libdl.dlsym(lib, :ENopen)
     err = ccall(sym, Cint, (Cstring,Cstring,Cstring), inpFile, rptFile, outFile)
     if err != 0
@@ -46,7 +46,10 @@ end
 
 #ENopenH()
 function openH()
-    err = Libdl.dlsym(lib, :EN_openH)
-
+    sym = Libdl.dlsym(lib, :ENopenH)
+    err = ccall(sym,Cint,())
+    if err != 0
+        return "Erro: "*err
+    end
 end
 
