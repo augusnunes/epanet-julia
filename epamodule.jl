@@ -2,33 +2,33 @@
 Julia EpanetToolkit
 =#
 module epamodule
-
 using Libdl
 
 lib_path = "/home/augusto/Documents/IC-2020/optimized-calibration/libs-epanet/EPANET/build/lib/libepanet2.so" # absolute path to lib epanet binary file
 lib = Libdl.dlopen(lib_path) 
 
 
+#= ----------------------------------------------------------
+        
+    Project functions
 
-#=
-*Lista de funções a serem implementadas
-- ENgeterror()
+---------------------------------------------------------- =#
 
-=#
-
-
-# ENgeterror()
-#=
-function ENtoolkitError(erro)
-    sym = Libdl.dlsym(lib,:ENgeterror)
-    errmsg = ""
-    maxLen = 500
-    ccall(sym, Cint,(Cint,Cstring,Cint), erro,errmsg,maxLen)
-    return errmsg
+function ENepanet(inpFile::String, rptFile::String="", outFile::String="", vfunc=NaN)
+    
+    sym = Libdl.dlsym(lib, :ENepanet)
+    err = ccall(sym, Cint, (Cstring, Cstring, Cstring), )
 end
-=#
 
 
+# testar
+function ENinit(rptFile::String, outFile::String, unitsType::Inf64, headlossType::Int64)
+    sym = Libdl.dlsym(lib, :ENinit)
+    return ccall(sym, Cint, (Cstring, Cstring, Cint, Cint), rptFile, outFile, unitsType, headlossType)
+
+end
+
+# funciona
 function ENopen(inpFile::String, rptFile::String = "", outFile::String = "")
     sym = Libdl.dlsym(lib, :ENopen)
     err = ccall(sym, Cint, (Cstring,Cstring,Cstring), inpFile, rptFile, outFile)
@@ -37,12 +37,23 @@ function ENopen(inpFile::String, rptFile::String = "", outFile::String = "")
     end
 end
 
-function ENopenH()
-    sym = Libdl.dlsym(lib, :ENopenH)
-    err = ccall(sym,Cint,())
-    if err != 0
-        return "Error: "*string(err)
-    end
+function ENgettitle()
+
+end
+
+function ENsettitle()
+end
+
+function ENgetcomment()
+end
+
+function ENsetcomment()
+end
+
+function ENgetcount()
+end
+
+function ENsaveinpfile()
 end
 
 function ENclose()
@@ -53,13 +64,11 @@ function ENclose()
     end
 end
 
-function ENcloseH()
-    sym = Libdl.dlsym(lib, :ENcloseH)
-    err = ccall(sym,Cint,())
-    if err != 0
-        return "Error: "*string(err)
-    end
-end
+#= ----------------------------------------------------------
+        
+    Hydraulic Analysis Functions
+
+---------------------------------------------------------- =#
 
 function ENsolveH()
     sym = Libdl.dlsym(lib, :ENsolveH)
@@ -68,6 +77,122 @@ function ENsolveH()
         return "Error: "*string(err)
     end
 end
+
+function ENsaveH()
+end
+
+
+function ENopenH()
+    sym = Libdl.dlsym(lib, :ENopenH)
+    err = ccall(sym,Cint,())
+    if err != 0
+        return "Error: "*string(err)
+    end
+end
+
+function ENinitH()
+end
+
+function ENrunH()
+end
+
+function ENnextH()
+end
+
+function ENcloseH()
+    sym = Libdl.dlsym(lib, :ENcloseH)
+    err = ccall(sym,Cint,())
+    if err != 0
+        return "Error: "*string(err)
+    end
+end
+
+function ENsavehydfile()
+end
+
+function ENusehydfile()
+end
+
+#= ----------------------------------------------------------
+        
+    Water Quality Analysis Functions
+
+---------------------------------------------------------- =#
+
+
+
+#= ----------------------------------------------------------
+        
+    Reporting Functions
+
+---------------------------------------------------------- =#
+
+
+
+#= ----------------------------------------------------------
+        
+    Analysis Options Functions
+
+---------------------------------------------------------- =#
+
+#= ----------------------------------------------------------
+        
+    Node Functions
+
+---------------------------------------------------------- =#
+
+
+#= ----------------------------------------------------------
+        
+    Nodal Demand Functions
+
+---------------------------------------------------------- =#
+
+#= ----------------------------------------------------------
+        
+    Link Functions
+
+---------------------------------------------------------- =#
+
+
+#= ----------------------------------------------------------
+        
+    Pump Functions
+
+---------------------------------------------------------- =#
+
+
+#= ----------------------------------------------------------
+        
+    Time Pattern Functions
+
+---------------------------------------------------------- =#
+
+
+#= ----------------------------------------------------------
+        
+    Data Curve Functions
+
+---------------------------------------------------------- =#
+
+
+#= ----------------------------------------------------------
+        
+    Simple Controls Functions
+
+---------------------------------------------------------- =#
+
+#= ----------------------------------------------------------
+        
+    Rule-Based Controls Functions
+
+---------------------------------------------------------- =#
+
+#= ----------------------------------------------------------
+        
+    Analysis Options Functions
+
+---------------------------------------------------------- =#
 
 function ENgetnodeindex(id::String)
     sym = Libdl.dlsym(lib, :ENgetnodeindex)
